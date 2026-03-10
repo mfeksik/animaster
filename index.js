@@ -49,28 +49,6 @@ function addListeners() {
         });
 }
 
-/**
- * Блок плавно появляется из прозрачного.
- * @param element — HTMLElement, который надо анимировать
- * @param duration — Продолжительность анимации в миллисекундах
- */
-
-
-/**
- * Функция, передвигающая элемент
- * @param element — HTMLElement, который надо анимировать
- * @param duration — Продолжительность анимации в миллисекундах
- * @param translation — объект с полями x и y, обозначающими смещение блока
- */
-
-/**
- * Функция, увеличивающая/уменьшающая элемент
- * @param element — HTMLElement, который надо анимировать
- * @param duration — Продолжительность анимации в миллисекундах
- * @param ratio — во сколько раз увеличить/уменьшить. Чтобы уменьшить, нужно передать значение меньше 1
- */
-
-
 function getTransform(translation, ratio) {
     const result = [];
     if (translation) {
@@ -83,6 +61,23 @@ function getTransform(translation, ratio) {
 }
 
 function animaster() {
+    function resetFadeIn(element) {
+        element.classList.remove('show');
+        element.classList.add('hide');
+        element.style.transitionDuration = null;
+    }
+
+    function resetFadeOut(element) {
+        element.classList.remove('hide');
+        element.classList.add('show');
+        element.style.transitionDuration = null;
+    }
+
+    function resetMoveAndScale(element) {
+        element.style.transitionDuration = null;
+        element.style.transformDuration = null;
+    }
+
     return {
         move : function(element, duration, translation) {
             element.style.transitionDuration = `${duration}ms`;
@@ -123,5 +118,9 @@ function animaster() {
             this.fadeIn(element, duration / 3);
             setTimeout(() => this.fadeOut(element, duration / 3), duration * 2 / 3);
         },
+
+        resetFadeIn : resetFadeIn,
+        resetFadeOut : resetFadeOut,
+        resetMoveAndScale : resetMoveAndScale
     }
 }
